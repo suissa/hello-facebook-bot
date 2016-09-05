@@ -7,7 +7,7 @@ const Elements = require('facebook-messenger-bot').Elements;
 
 const bot = new Bot(process.env.PAGE_ACCESS_TOKEN, process.env.VERIFICATION);
 
-bot.on('message', async message => {
+bot.on('message', async (message) => {
     const {sender} = message;
     await sender.fetch('first_name');
 

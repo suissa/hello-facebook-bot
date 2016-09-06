@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "Facebook Bot",
+            "script": "/bots/hello-facebook-bot/index.js",
+            "watch": true,
+            "instances": 1,
+            "error_file": "/bots/logs/hello-facebook-bot.log",
+            "out_file": "/bots/logs/hello-facebook-bot.log",
+            "combine_logs": false
+        }
+    ]
+}

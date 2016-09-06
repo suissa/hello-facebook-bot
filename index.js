@@ -8,6 +8,18 @@ const fs = require('fs');
 const https = require('https');
 const Bot = require('messenger-bot');
 
+//Carregando services
+const services = require('./modules/services');
+
+const _services = [
+    {
+        member: 'wikipedia',
+        regex: /^(Quem|O que|O q|oq) (é|eh|eah|e|significa|são|sao) ([^?]*)\s?\??/i,
+        fn: (text, cbk) => services.wikipedia.execute(text, cbk),
+        eval: false
+    }
+]
+
 //Seting bot up
 let bot = new Bot({
     token: process.env.PAGE_ACCESS_TOKEN,
@@ -21,18 +33,22 @@ bot.on('error', (err) => {
 
 
 bot.on('message', (payload, reply) => {
-    let text = payload.message.text
+    let text = payload.message.text;
+    let recognized = false;
 
-    bot.getProfile(payload.sender.id, (err, profile) => {
-        if (err) console.log(err)
-
-        reply({ text }, (err) => {
-            if (err) console.log(err)
-
-            console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`);
-        })
-    })
-})
+    _services.forEach((el, index) => {
+        if (_services[index].regex.test(text)) {
+            recognized = true;
+            const service = _services[index];
+            service.fn(text, (response) => {
+                bot.getProfile(payload.sender.id, (err, profile) => {
+                    if (err) console.log(err)
+                    reply(response, (err) => { if (err) console.log(err) })
+                })
+            });
+        }
+    });
+});
 
 
 //Loading chain certificates

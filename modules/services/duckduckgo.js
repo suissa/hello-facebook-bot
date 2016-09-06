@@ -37,7 +37,7 @@ const execute = (match, cbk) => {
          * @param data.AbstractURL
          */
         if (data.AbstractText !== "") {
-          const _return = `Segundo o DuckDuckGo: "${data.AbstractText}"`.splice(0, 317);
+          const _return = `Segundo o DuckDuckGo: "${data.AbstractText}"`;
           //bot.sendMessage(msg.chat.id, _return, parse);
           // bot.sendMessage(msg.chat.id, 'Data: "'+JSON.stringify(data)+'"');
 
@@ -45,7 +45,7 @@ const execute = (match, cbk) => {
             type: 'template',
             'payload': {
               'template_type': 'button',
-              text: _return.join('') + '...',
+              text: _return.splice(0, 317).join('') + '...',
               'buttons': [
                 {
                   'type': 'web_url',

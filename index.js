@@ -50,6 +50,6 @@ const options = {
 };
 
 //Starting server
-https.createServer(options, app).listen(process.env.port || app.get('port'), function () {
+https.createServer(options, bot.middleware()).listen(process.env.port || app.get('port'), function () {
     console.log('Node app is running on port', process.env.port || app.get('port'));
 });

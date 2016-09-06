@@ -14,7 +14,7 @@ const services = require('./modules/services');
 const _services = [
     {
         member: 'wikipedia',
-        regex: /^(Quem|O que|O q|oq) (é|eh|eah|e|significa|são|sao) ([^?]*)\s?\??/i,
+        regex: /^(?:Quem|O que|O q|oq) (?:é|eh|eah|e|significa|são|sao) ([^?]*)\s?\??/i,
         fn: (text, cbk) => services.wikipedia.execute(text, cbk),
         eval: false
     }
@@ -38,9 +38,10 @@ bot.on('message', (payload, reply) => {
 
     _services.forEach((el, index) => {
         if (_services[index].regex.test(text)) {
+            let match = text.match(_services[index].regex);
             recognized = true;
             const service = _services[index];
-            service.fn(text, (response) => {
+            service.fn({ text, match }, (response) => {
                 bot.getProfile(payload.sender.id, (err, profile) => {
                     if (err) console.log(err)
                     reply(response, (err) => { if (err) console.log(err) })

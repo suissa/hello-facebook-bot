@@ -110,9 +110,9 @@ var _execute = (bot, msg, args) => {
   }
 };
 
-const execute = (text, cbk) => {
-  if(text && cbk){
-      cbk({text: `Pesquisando ${text} na Wikipedia`});
+const execute = (args, cbk) => {
+  if (args.match && cbk) {
+    cbk({ text: `Pesquisando ${args.match[1]} na Wikipedia` });
   }
 }
 

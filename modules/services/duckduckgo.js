@@ -22,10 +22,19 @@ const execute = (match, cbk) => {
   const query = match.query;
   const _base = 'http://api.duckduckgo.com/?format=json&q=';
   const _url = url.parse(_base + encodeURIComponent(query));
+
   _url.headers = {
     'User-Agent': 'Telegram Bot',
     'Accept-Language': 'pt-BR;q=1, pt;q=0.8, en;q=0.5'
   };
+
+  if (process.env.proxy) {
+    _url.host = process.env.proxy.replace(/https?:\/\/|\:[0-9]*/g, '');
+    _url.port = process.env.proxy.replace(/https?:\/\/[^:]*:/g, '');
+    _url.path = encodeURI(url.parse(_base + query));
+    _url.headers['Host'] = 'api.duckduckgo.com';
+  }
+
   const req = http.request(_url, (res) => {
     let data = '';
     res.on('data', (chunk) => data += chunk);
@@ -41,22 +50,15 @@ const execute = (match, cbk) => {
           //bot.sendMessage(msg.chat.id, _return, parse);
           // bot.sendMessage(msg.chat.id, 'Data: "'+JSON.stringify(data)+'"');
 
-          const attachment = {
-            type: 'template',
-            'payload': {
-              'template_type': 'button',
-              text: _return.split('').splice(0, 316).join('') + '..."',
-              'buttons': [
-                {
-                  'type': 'web_url',
-                  'url': data.AbstractURL,
-                  'title': 'Abrir fonte'
-                }
-              ]
+          let buttons = [
+            {
+              type: 'web_url',
+              url: data.AbstractURL,
+              title: 'Abrir fonte'
             }
-          }
+          ];
 
-          cbk({ attachment });
+          cbk({ text: _return.split('').splice(0, 316).join('') + '..."' });
           console.log("data): " + data);
         }
         else {

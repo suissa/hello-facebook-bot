@@ -55,9 +55,29 @@ bot.on('message', (payload, reply) => {
 });
 
 const sendResponse = (response, payload, reply) => {
+
+    let _response;
+
+    if (response.buttons) {
+        _response = {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'button',
+                    text: response.text,
+                    buttons: response.buttons
+                }
+            }
+        }
+    } else if (response.text) {
+        _response = { text: response.text }
+    } else {
+        _response = { text: 'Erro intero' }
+    }
+
     bot.getProfile(payload.sender.id, (err, profile) => {
         if (err) console.log(err)
-        reply(response, (err) => { if (err) console.log(err) })
+        reply(_response, (err) => { if (err) console.log(err) })
     });
 }
 

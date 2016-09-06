@@ -66,22 +66,15 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
         _return = _return.split('').splice(0, 316);
         //bot.sendMessage(msg.chat.id, _return, ph);
 
-        const attachment = {
-          type: 'template',
-          'payload': {
-            'template_type': 'button',
-            text: _return.join('') + '..."',
-            'buttons': [
-              {
-                'type': 'web_url',
-                'url': _url,
-                'title': 'Abrir fonte'
-              }
-            ]
+        let buttons = [
+          {
+            type: 'web_url',
+            url: _url,
+            title: 'Abrir fonte'
           }
-        }
+        ];
 
-        cbk({ attachment });
+        cbk({ text: _return.join('') + '..."', buttons });
 
         break;
       case 404:

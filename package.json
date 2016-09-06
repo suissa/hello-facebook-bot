@@ -1,7 +1,7 @@
 {
   "name": "hello-facebook-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bot do BeMEAN para Facebook Messenger",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests"
@@ -21,7 +21,9 @@
     "cheerio-advanced-selectors": "^1.1.1",
     "dotenv-safe": "^2.3.1",
     "express": "^4.14.0",
+    "googlemaps": "^1.11.1",
     "messenger-bot": "^2.3.0",
+    "mongoose": "^4.6.0",
     "request": "^2.74.0"
   },
   "devDependencies": {

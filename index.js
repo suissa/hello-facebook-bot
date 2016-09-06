@@ -15,8 +15,14 @@ const _services = [
     {
         member: 'wikipedia',
         regex: /^(?:Quem|O que|O q|oq) (?:é|eh|eah|e|significa|são|sao) ([^?]*)\s?\??/i,
-        fn: (text, cbk) => services.wikipedia.execute(text, cbk),
+        fn: (text, cbk) => services.wikipedia.execute(args, cbk),
         eval: false
+    },
+    {
+      member: 'gmaps',
+      regex: /onde\s+(?:fica|está|é|eh)\s*(?:o|a)?\s+([^?]+)\??$/i,
+      fn: (bot, msg, match) => services.gmaps.execute(args, cbk),
+      eval: false
     }
 ]
 

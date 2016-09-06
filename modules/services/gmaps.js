@@ -16,7 +16,7 @@ const api = new GoogleMapsAPI(config);
 const monitutils = require('../utils/monitutils');
 const errMsg = "Droga, ocorreu um erro ao processar a solicitação :/";
 
-const localeNotFound = (bot, msg, query, result) => {
+const localeNotFound = (cbk) => {
   cbk({ text: "Então... Tem certeza que esse lugar existe? Pq procurei ele no Google Maps, e não achei, não :/" });
 }
 

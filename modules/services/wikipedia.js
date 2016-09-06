@@ -1,10 +1,10 @@
 'use strict';
 
-//Requires
+/*Requires
 const request = require('request');
 const duckduckgo = require('./duckduckgo');
 const cheerioAdv = require('cheerio-advanced-selectors');
-const cheerio = cheerioAdv.wrap(require('cheerio'));
+const cheerio = cheerioAdv.wrap(require('cheerio'));*/
 
 //Strings
 const regexOnde = /Onde|ond|cadê|cade/i;

@@ -7,7 +7,7 @@ require('dotenv-safe').load();
 const fs = require('fs');
 const https = require('https');
 const Bot = require('messenger-bot');
-
+const locationutils = require('./modules/utils/locationutils');
 //Carregando services
 const services = require('./modules/services');
 
@@ -19,10 +19,10 @@ const _services = [
         eval: false
     },
     {
-      member: 'gmaps',
-      regex: /onde\s+(?:fica|está|é|eh)\s*(?:o|a)?\s+([^?]+)\??$/i,
-      fn: (args, cbk) => services.gmaps.execute(args, cbk),
-      eval: false
+        member: 'gmaps',
+        regex: /onde\s+(?:fica|está|é|eh)\s*(?:o|a)?\s+([^?]+)\??$/i,
+        fn: (args, cbk) => services.gmaps.execute(args, cbk),
+        eval: false
     }
 ]
 
@@ -77,6 +77,15 @@ const sendResponse = (response, payload, reply) => {
         }
     } else if (response.text) {
         _response = { text: response.text }
+    } else if (response.location) {
+        _response = {
+            attachment: {
+                type: 'image',
+                payload: {
+                    url: locationutils.getStaticMap(response.location.name, response.location.lat, response.location.lng)
+                }
+            }
+        }
     } else {
         _response = { text: 'Erro intero' }
     }

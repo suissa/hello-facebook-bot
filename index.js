@@ -1,31 +1,55 @@
 'use strict';
 
-require('dotenv').config();
+//Loading .env file
+require('dotenv-safe').load();
 
-const Bot = require('facebook-messenger-bot').Bot;
-const Elements = require('facebook-messenger-bot').Elements;
+//Loding dependencies
+const fs = require('fs');
+const https = require('https');
+const app = require('express')();
+const Bot = require('messenger-bot');
 
-const bot = new Bot(process.env.PAGE_ACCESS_TOKEN, process.env.VERIFICATION);
-
-bot.on('message', async (message) => {
-    const {sender} = message;
-    await sender.fetch('first_name');
-
-    const out = new Elements();
-    out.add({ text: `hey ${sender.first_name}, how are you!` });
-
-    await bot.send(sender.id, out);
+//Seting bot up
+let bot = new Bot({
+    token: process.env.PAGE_ACCESS_TOKEN,
+    verify: process.env.VERIFICATION,
+    app_secrect: process.env.APP_SECRET
 });
 
+bot.on('error', (err) => {
+    console.log(err.message)
+});
+
+
+bot.on('message', (payload, reply) => {
+    let text = payload.message.text
+
+    bot.getProfile(payload.sender.id, (err, profile) => {
+        if (err) throw err
+
+        reply({ text }, (err) => {
+            if (err) throw err
+
+            console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
+        })
+    })
+})
+
+
+//Loading chain certificates
+let chain = [];
+JSON.parse(process.env.CHAIN_PATHS).forEach((f) => {
+    chain.push(fs.readFileSync(f));
+});
+
+//Creating options object to pass to server
 const options = {
-    key: fs.readFileSync('./privkey.pem'),
-    cert: fs.readFileSync('./cert.pem'),
-    ca: [
-        fs.readFileSync('./chain-1.pem'),
-        fs.readFileSync('./chain-2.pem')
-    ]
+    key: fs.readFileSync(process.env.KEY_PATH),
+    cert: fs.readFileSync(process.env.CERT_PATH),
+    ca: chain
 };
 
-https.createServer(options, app).listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
+//Starting server
+https.createServer(options, app).listen(process.env.port || app.get('port'), function () {
+    console.log('Node app is running on port', process.env.port || app.get('port'));
 });

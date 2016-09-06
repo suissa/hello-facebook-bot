@@ -1,7 +1,7 @@
 'use strict';
 
 //Requires
-const request = require('request');
+const request = process.env.proxy ? require('request').defaults({ 'proxy': process.env.proxy }) : require('request');;
 const duckduckgo = require('./duckduckgo');
 const cheerioAdv = require('cheerio-advanced-selectors');
 const cheerio = cheerioAdv.wrap(require('cheerio'));
@@ -61,10 +61,14 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
         var answer = answers.quickDef;
 
         answer = (answer == "") ? answers.longDef : answer;
-        const _return = 'Segundo a Wikipédia: "<i>' + answer.replace(/\[[^]]*]/, "") + '</i>". fonte: ' + _url;
+        let _return = 'Segundo a Wikipédia: "' + answer.replace(/\[[^]]*]/, "") + '". ';
 
+        _url = `Fonte: ${_url}`;
+
+        _return = _return.split('').splice(0, 320 - (_url.length + 3));
         //bot.sendMessage(msg.chat.id, _return, ph);
-        cbk({ text: _return });
+
+        cbk({ text: _return.join('') + '...' + _url });
 
         break;
       case 404:

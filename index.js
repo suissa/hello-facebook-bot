@@ -80,9 +80,17 @@ const sendResponse = (response, payload, reply) => {
     } else if (response.location) {
         _response = {
             attachment: {
-                type: 'image',
+                type: 'template',
                 payload: {
-                    url: locationutils.getStaticMap(response.location.name, response.location.lat, response.location.lng)
+                    template_type: 'generic',
+                    elements: [
+                        {
+                            title: response.location.name,
+                            item_url: locationutils.mapsBaseUrl + `${response.location.lat},${response.location.lng}`,
+                            image_url: locationutils.getStaticMap(response.location.name, response.location.lat, response.location.lng),
+                            subtitle: 'Abrir no Google Maps'
+                        }
+                    ]
                 }
             }
         }

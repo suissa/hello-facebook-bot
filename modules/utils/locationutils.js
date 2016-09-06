@@ -10,6 +10,7 @@ console.log(process.env.proxy ? 'Proxy setado' : 'Sem proxy');
 if (process.env.proxy) config.proxy = process.env.proxy;
 
 const api = new GoogleMapsAPI(config);
+const mapsBaseUrl = 'https://www.google.com.br/maps/place/';
 
 const getStaticMap = (name, lat, lng) => {
     let params = {
@@ -35,5 +36,6 @@ const getStaticMap = (name, lat, lng) => {
 }
 
 module.exports = {
-    getStaticMap
+    getStaticMap,
+    mapsBaseUrl
 }

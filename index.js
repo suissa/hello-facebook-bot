@@ -32,7 +32,9 @@ bot.on('message', (payload, reply) => {
         reply({ text }, (err) => {
             if (err) console.log(err)
 
-            console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
+            console.log(profile);
+
+            //console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
         })
     })
 })

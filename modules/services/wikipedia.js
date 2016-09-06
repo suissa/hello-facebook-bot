@@ -68,9 +68,9 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
 
         const attachment = {
           type: 'template',
-          text: _return.join('') + '...',
           'payload': {
             'template_type': 'button',
+            text: _return.join('') + '...',
             'buttons': [
               {
                 'type': 'web_url',

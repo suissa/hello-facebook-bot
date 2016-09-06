@@ -68,6 +68,7 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
 
         const attachment = {
           type: 'template',
+          text: _return.join('') + '...',
           'payload': {
             'template_type': 'button',
             'buttons': [
@@ -80,7 +81,7 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
           }
         }
 
-        cbk({ text: _return.join('') + '...', attachment });
+        cbk({ attachment });
 
         break;
       case 404:

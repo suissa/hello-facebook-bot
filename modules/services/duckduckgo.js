@@ -37,15 +37,31 @@ const execute = (match, cbk) => {
          * @param data.AbstractURL
          */
         if (data.AbstractText !== "") {
-          const _return = "Segundo o DuckDuckGo: <i>" + data.AbstractText + "</i> Saiba mais em " + data.AbstractURL;
+          const _return = `Segundo o DuckDuckGo: "${data.AbstractText}"`.splice(0, 317);
           //bot.sendMessage(msg.chat.id, _return, parse);
           // bot.sendMessage(msg.chat.id, 'Data: "'+JSON.stringify(data)+'"');
-          cbk({ text: _return });
+
+          const attachment = {
+            type: 'template',
+            'payload': {
+              'template_type': 'button',
+              text: _return.join('') + '...',
+              'buttons': [
+                {
+                  'type': 'web_url',
+                  'url': data.AbstractURL,
+                  'title': 'Abrir fonte'
+                }
+              ]
+            }
+          }
+
+          cbk({ attachment });
           console.log("data): " + data);
         }
         else {
           const sticker = stickers[Math.floor(Math.random() * stickers.length)];
-          const _return = "<b>Não achei nada jovem!</b> Sorry mesmo, mas você pode fumar um pra relaxar.";
+          const _return = "Não achei nada jovem! Sorry mesmo :/";
           //bot.sendMessage(msg.chat.id, _return, parse);
           cbk({ text: _return });
           /*s.get(msg.chat.id, 'stickers', (err, data) => {

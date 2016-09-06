@@ -27,10 +27,10 @@ bot.on('message', (payload, reply) => {
     console.log(`Got message: ${text}`);
 
     bot.getProfile(payload.sender.id, (err, profile) => {
-        if (err) throw err
+        if (err) console.log(err)
 
         reply({ text }, (err) => {
-            if (err) throw err
+            if (err) console.log(err)
 
             console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
         })

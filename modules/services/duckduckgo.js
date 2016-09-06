@@ -45,7 +45,7 @@ const execute = (match, cbk) => {
             type: 'template',
             'payload': {
               'template_type': 'button',
-              text: _return.split('').splice(0, 317).join('') + '...',
+              text: _return.split('').splice(0, 316).join('') + '..."',
               'buttons': [
                 {
                   'type': 'web_url',

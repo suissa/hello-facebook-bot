@@ -63,14 +63,14 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
         answer = (answer == "") ? answers.longDef : answer;
         let _return = 'Segundo a Wikipédia: "' + answer.replace(/\[[^]]*]/, "") + '". ';
 
-        _return = _return.split('').splice(0, 317);
+        _return = _return.split('').splice(0, 316);
         //bot.sendMessage(msg.chat.id, _return, ph);
 
         const attachment = {
           type: 'template',
           'payload': {
             'template_type': 'button',
-            text: _return.join('') + '...',
+            text: _return.join('') + '..."',
             'buttons': [
               {
                 'type': 'web_url',

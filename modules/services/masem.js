@@ -19,3 +19,7 @@ const answers = [
 const execute = (cbk) => {
     if (cbk) cbk({ text: answers[Math.floor(Math.random() * answers.length)] });
 }
+
+module.exports = {
+    execute
+}

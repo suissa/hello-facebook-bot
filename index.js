@@ -21,18 +21,18 @@ const _services = [
 ]
 
 //Seting bot up
-let bot = new Bot({
+let fbBot = new Bot({
     token: process.env.PAGE_ACCESS_TOKEN,
     verify: process.env.VERIFICATION,
     app_secrect: process.env.APP_SECRET
 });
 
-bot.on('error', (err) => {
+fbBot.on('error', (err) => {
     console.log(err.message)
 });
 
 
-bot.on('message', (payload, reply) => {
+fbBot.on('message', (payload, reply) => {
     let text = payload.message.text;
     let recognized = false;
 
@@ -75,7 +75,7 @@ const sendResponse = (response, payload, reply) => {
         _response = { text: 'Erro intero' }
     }
 
-    bot.getProfile(payload.sender.id, (err, profile) => {
+    fbBot.getProfile(payload.sender.id, (err, profile) => {
         if (err) console.log(err)
         reply(_response, (err) => { if (err) console.log(err) })
     });
@@ -95,6 +95,6 @@ const options = {
 };
 
 //Starting server
-https.createServer(options, bot.middleware()).listen(process.env.port || app.get('port'), function () {
+https.createServer(options, fbBot.middleware()).listen(process.env.port || app.get('port'), function () {
     console.log('Node app is running on port', process.env.port || app.get('port'));
 });

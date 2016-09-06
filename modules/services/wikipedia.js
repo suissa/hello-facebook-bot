@@ -63,12 +63,18 @@ const parseResponse = (err, res, html, args, _url, cbk) => {
         answer = (answer == "") ? answers.longDef : answer;
         let _return = 'Segundo a Wikipédia: "' + answer.replace(/\[[^]]*]/, "") + '". ';
 
-        _url = `Fonte: ${_url}`;
-
-        _return = _return.split('').splice(0, 320 - (_url.length + 3));
+        _return = _return.split('').splice(0, 317);
         //bot.sendMessage(msg.chat.id, _return, ph);
 
-        cbk({ text: _return.join('') + '...' + _url });
+        cbk({
+          text: _return.join('') + '...', buttons: [
+            {
+              type: "web_url",
+              url: _url,
+              title: "Abrir Wikipedia"
+            }
+          ]
+        });
 
         break;
       case 404:

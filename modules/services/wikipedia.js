@@ -4,7 +4,8 @@
 const request = require('request');
 const duckduckgo = require('./duckduckgo');
 const cheerioAdv = require('cheerio-advanced-selectors');
-const cheerio = cheerioAdv.wrap(require('cheerio'));*/
+const cheerio = cheerioAdv.wrap(require('cheerio'));
+const s = require('../settings');*/
 
 //Strings
 const regexOnde = /Onde|ond|cadê|cade/i;
@@ -17,8 +18,6 @@ const messages = {
   noResultsFound: "Vish, a Wikipedia não tem nada sobre ",
   communicationError: "Putz, não tô conseguindo conversar com a Wikipedia :/ Tenta depois `%e%`"
 };
-
-const s = require('../settings');
 
 // Makes HTML more compatible to https://core.telegram.org/bots/api#html-style
 const simpleHTML = (code) =>

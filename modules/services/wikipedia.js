@@ -1,11 +1,11 @@
 'use strict';
 
-/*Requires
+//Requires
 const request = require('request');
 const duckduckgo = require('./duckduckgo');
 const cheerioAdv = require('cheerio-advanced-selectors');
 const cheerio = cheerioAdv.wrap(require('cheerio'));
-const s = require('../settings');*/
+//const s = require('../settings');
 
 //Strings
 const regexOnde = /Onde|ond|cadê|cade/i;
@@ -43,10 +43,10 @@ const escapeHTML = (code) =>
 /**
  * Realiza o parse de uma response vinda do request
  */
-const parseResponse = (err, res, html, args, bot, msg, _url) => {
+const parseResponse = (err, res, html, args, _url, cbk) => {
 
   const query = args.query;
-  const wh = args.wh;
+
   if (!err) {
     switch (res.statusCode) {
       case 200:
@@ -60,23 +60,22 @@ const parseResponse = (err, res, html, args, bot, msg, _url) => {
 
         var answer = answers.quickDef;
 
-        if (wh.match(regexOnde)) {
-          answer = (answers.coordinates != "") ? answers.coordinates : messages.coordsNotFound + answers.longDef;
-        }
-
         answer = (answer == "") ? answers.longDef : answer;
         const _return = 'Segundo a Wikipédia: "<i>' + answer.replace(/\[[^]]*]/, "") + '</i>". fonte: ' + _url;
 
-        bot.sendMessage(msg.chat.id, _return, ph);
+        //bot.sendMessage(msg.chat.id, _return, ph);
+        cbk({ text: _return });
+
         break;
       case 404:
         // bot.sendMessage(msg.chat.id, messages.noResultsFound + query);
-        duckduckgo.execute(bot, msg, args);
+        duckduckgo.execute(args, cbk);
         break;
     }
   } else {
     const mili = new Date().getTime();
-    bot.sendMessage(msg.chat.id, messages.requestError.replace("%mili%", mili), pm);
+    //bot.sendMessage(msg.chat.id, messages.requestError.replace("%mili%", mili), pm);
+    cbk({ text: messages.requestError.replace("%mili%", mili) });
     console.log(messages.consoleRequestError.replace("%mili%", mili).replace("%err%", err));
   }
 };
@@ -88,31 +87,33 @@ const parseResponse = (err, res, html, args, bot, msg, _url) => {
  * @param msg Objeto mensagem a ser utilizado para se obter  o id
  * @param args Objeto contento o tipo de pesquisa a realizar(wh) e o termo pesquisado (query)
  */
-var _execute = (bot, msg, args) => {
+var _execute = (args, cbk) => {
   // console.log('args', args.query, args.query.toLowerCase().match(/o seu criador/i))
   if (args.query.toLowerCase() == 'o seu criador') {
-    console.log('quem é o seu criador');
-    s.get(msg.chat.id, 'stickers', (err, data) => {
-      if (data == 'true') bot.sendSticker(msg.chat.id, 'BQADAQADGgADt-CfBCZz7J0kak9nAg', { 'reply_to_message_id': msg.message_id })
-      else bot.sendMessage(msg.chat.id, 'https://github.com/Webschool-io/Bot-Telegram-BeMEAN');
-    });
+    //s.get(msg.chat.id, 'stickers', (err, data) => {
+    /*if (data == 'true') bot.sendSticker(msg.chat.id, 'BQADAQADGgADt-CfBCZz7J0kak9nAg', { 'reply_to_message_id': msg.message_id })
+    else bot.sendMessage(msg.chat.id, 'https://github.com/Webschool-io/Bot-Telegram-BeMEAN');*/
+    cbk({ text: 'https://github.com/Webschool-io/Bot-Telegram-BeMEAN' });
+    //});
   }
   else {
     try {
       const _url = 'https://pt.wikipedia.org/w/index.php?title=' + args.query.toLowerCase().split(" ").join("_");
       request(_url, (err, res, html) => {
-        parseResponse(err, res, html, args, bot, msg, _url);
+        parseResponse(err, res, html, args, _url, cbk);
       });
     }
     catch (e) {
-      bot.sendMessage(msg.chat.id, messages.communicationError.replace("%e%", e), pm);
+      cbk({ text: messages.communicationError.replace("%e%", e) });
+      //bot.sendMessage(msg.chat.id, messages.communicationError.replace("%e%", e), pm);
     }
   }
 };
 
 const execute = (args, cbk) => {
   if (args.match && cbk) {
-    cbk({ text: `Pesquisando ${args.match[1]} na Wikipedia` });
+    args.query = args.match[1];
+    _execute(args, cbk);
   }
 }
 

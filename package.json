@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,15 @@
   },
   "homepage": "https://github.com/rohmunhoz/hello-facebook-bot#readme",
   "dependencies": {
+    "cheerio": "^0.22.0",
+    "cheerio-advanced-selectors": "^1.1.1",
     "dotenv-safe": "^2.3.1",
     "express": "^4.14.0",
-    "messenger-bot": "^2.3.0"
+    "messenger-bot": "^2.3.0",
+    "request": "^2.74.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
   }
 }

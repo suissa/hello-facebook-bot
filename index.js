@@ -6,7 +6,6 @@ require('dotenv-safe').load();
 //Loding dependencies
 const fs = require('fs');
 const https = require('https');
-const app = require('express')();
 const Bot = require('messenger-bot');
 
 //Seting bot up
@@ -24,17 +23,15 @@ bot.on('error', (err) => {
 bot.on('message', (payload, reply) => {
     let text = payload.message.text
 
-    //console.log(`Got message: ${text}`);
-
     bot.getProfile(payload.sender.id, (err, profile) => {
         if (err) console.log(err)
-        
-        console.log('Profile: ' + profile);
+
+        console.log(`Called for profile with ID: ${payload.sender.id}`);
 
         reply({ text }, (err) => {
             if (err) console.log(err)
 
-            //console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
+            console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
         })
     })
 })

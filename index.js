@@ -42,15 +42,24 @@ bot.on('message', (payload, reply) => {
             recognized = true;
             const service = _services[index];
             service.fn({ text, match }, (response) => {
-                bot.getProfile(payload.sender.id, (err, profile) => {
-                    if (err) console.log(err)
-                    reply(response, (err) => { if (err) console.log(err) })
-                })
+                sendResponse(response, payload, reply);
             });
         }
     });
+
+    if (!recognized) {
+        services.masem.execute((response) => {
+            sendResponse(response, payload, reply);
+        })
+    }
 });
 
+const sendResponse = (response, payload, reply) => {
+    bot.getProfile(payload.sender.id, (err, profile) => {
+        if (err) console.log(err)
+        reply(response, (err) => { if (err) console.log(err) })
+    });
+}
 
 //Loading chain certificates
 let chain = [];

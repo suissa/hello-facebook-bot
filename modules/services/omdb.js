@@ -105,7 +105,7 @@ const _respond = (info, force, cbk) => {
         cbk({ text: info.text, buttons: [{ type: 'web_url', url: info.imdb_link, title: 'Mais informações' }] });
       }, 1000);
     } else {
-      cbk({ text: force ? MESSAGES.search_succes_f : MESSAGES.search_succes_nf  + ` (${info.count})` });
+      cbk({ text: force ? MESSAGES.search_succes_f : MESSAGES.search_succes_nf + ` (${info.count}, ${force})` });
     }
   } else {
     cbk({ text: MESSAGES.search_fail_nf });

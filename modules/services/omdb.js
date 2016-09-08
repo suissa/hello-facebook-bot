@@ -84,7 +84,7 @@ const _findInfo = (title, forceSearch, id, cbk) => {
           };
           _respond(_return, args.forceSearch, cbk);
         } else {
-          _runSearch(false, cbk);
+          _runSearch(title, false, cbk);
         }
       } else {
         console.log("Erro: " + err);

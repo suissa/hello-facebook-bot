@@ -92,7 +92,7 @@ const _findInfo = (title, forceSearch, id, cbk) => {
       }
     });
   } else {
-    _runSearch(title, true, cbk);
+    _runSearch(title, false, cbk);
   }
 };
 

@@ -8,17 +8,24 @@ const saudacao = require('../modules/services/saudacao');
 describe('Saudacao', () => {
     describe('Horário correto', () => {
         let retornos = {};
+        let date = new Date();
+        date.setUTCMinutes(0);
+
+        date.setUTCHours(14);
+
         before((done) => {
             saudacao.execute({ match: ['', 'om', 'dia'] }, (response) => {
                 retornos.bomDia = response;
+                date.setUTCHours(17);
                 saudacao.execute({ match: ['', 'oa', 'tarde'] }, (response) => {
                     retornos.boaTarde = response;
+                    date.setUTCHours(22)
                     saudacao.execute({ match: ['', 'oa', 'noite'] }, (response) => {
                         retornos.boaNoite = response;
                         done();
-                    }, new Date('01/01/2016 19:00'));
-                }, new Date('01/01/2016 18:00'));
-            }, new Date('01/01/2016 11:00'));
+                    }, date);
+                }, date);
+            }, date);
         });
         it('Bom dia', () => {
             expect(retornos.bomDia.text).to.equals('Opa, bom dia, jovem!');
@@ -33,9 +40,9 @@ describe('Saudacao', () => {
     describe('Horário incorreto', () => {
         let retornos = {};
         let dates = {
-            dia: new Date('01/01/2016 13:00'),
-            tarde: new Date('01/01/2016 19:00'),
-            noite: new Date('01/01/2016 15:00')
+            dia: new Date('01/01/2016 16:00'),
+            tarde: new Date('01/01/2016 21:00'),
+            noite: new Date('01/01/2016 18:00')
         }
         before((done) => {
             saudacao.execute({ match: ['', 'om', 'dia'] }, (response) => {

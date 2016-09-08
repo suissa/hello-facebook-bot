@@ -81,7 +81,7 @@ const _findInfo = (title, forceSearch, id, cbk) => {
             poster: _info.Poster,
             text: _info.Title + "\n\n" + "Gênero: " + _info.Genre + "\n" + "Tipo: " + _info.Type + "\n" + "Lançado em " + _info.Released + "\n",
             imdb_link: IMDB_URL + _info.imdbID,
-            plot: _info.plot
+            plot: _info.Plot
           };
           _respond(_return, forceSearch, cbk);
         } else {

@@ -32,7 +32,7 @@ const _services = [
     },
     {
         member: 'lmgtfy',
-        regex: /^gme\s+([a-zA-Z ])+/i,
+        regex: /^gme\s+([a-zA-Z ]+)+/i,
         fn: (bot, msg, match) => services.gme.execute(bot, msg, match),
         eval: false
     },

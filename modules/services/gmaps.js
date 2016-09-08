@@ -9,7 +9,6 @@ const config = {
   secure: true
 }
 
-console.log(process.env.proxy ? 'Proxy setado' : 'Sem proxy');
 if (process.env.proxy) config.proxy = process.env.proxy;
 
 const api = new GoogleMapsAPI(config);

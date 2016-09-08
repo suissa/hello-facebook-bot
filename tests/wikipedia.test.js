@@ -2,8 +2,6 @@
 
 require('dotenv-safe').load();
 
-console.log(process.env.proxy ? 'Proxy setado' : 'Sem proxy');
-
 const expect = require('chai').expect;
 const wikipedia = require('../modules/services/wikipedia');
 

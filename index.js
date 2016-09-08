@@ -23,6 +23,12 @@ const _services = [
         regex: /onde\s+(?:fica|está|é|eh)\s*(?:o|a)?\s+([^?]+)\??$/i,
         fn: (args, cbk) => services.gmaps.execute(args, cbk),
         eval: false
+    },
+    {
+        member: 'saudacao',
+        regex: /b(oa|om) (dia|tarde|noite)/i,
+        fn: (bot, msg, match) => services.saudacao.execute(bot, msg, match),
+        eval: false
     }
 ]
 

@@ -6,21 +6,21 @@ const dbURI = 'mongodb://localhost/bemean';
 mongoose.connect(dbURI);
 
 mongoose.connection.on('  ', function () {
-    console.log('Mongoose default connection open to ' + dbURI);
+    if (process.env.debug_level >= 1) console.log('Mongoose default connection open to ' + dbURI);
 });
 mongoose.connection.on('error', function (err) {
-    console.log('Mongoose default connection error: ' + err);
+    if (process.env.debug >= 0) console.log('Mongoose default connection error: ' + err);
 });
 mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose default connection disconnected');
+    if (process.env.debug >= 1) console.log('Mongoose default connection disconnected');
 });
 mongoose.connection.on('open', function () {
-    console.log('Mongoose default connection is open');
+    if (process.env.debug >= 1) console.log('Mongoose default connection is open');
 });
 
 process.on('SIGINT', function () {
     mongoose.connection.close(function () {
-        console.log('Mongoose default connection disconnected through app termination');
+        if (process.env.debug_level >= 1) console.log('Mongoose default connection disconnected through app termination');
         process.exit(0);
     });
 });

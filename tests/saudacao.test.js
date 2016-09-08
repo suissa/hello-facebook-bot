@@ -1,0 +1,57 @@
+'use strict';
+
+require('dotenv-safe').load();
+
+const expect = require('chai').expect;
+const saudacao = require('../modules/services/saudacao');
+
+describe('Saudacao', () => {
+    describe('Horário correto', () => {
+        let retornos = {};
+        before((done) => {
+            saudacao.execute({ match: ['', 'om', 'dia'] }, (response) => {
+                retornos.bomDia = response;
+                saudacao.execute({ match: ['', 'oa', 'tarde'] }, (response) => {
+                    retornos.boaTarde = response;
+                    saudacao.execute({ match: ['', 'oa', 'noite'] }, (response) => {
+                        retornos.boaNoite = response;
+                        done();
+                    }, new Date('01/01/2016 19:00'));
+                }, new Date('01/01/2016 18:00'));
+            }, new Date('01/01/2016 11:00'));
+        });
+        it('Bom dia', () => {
+            expect(retornos.bomDia.text).to.equals('Opa, bom dia, jovem!');
+        });
+        it('Boa tarde', () => {
+            expect(retornos.boaTarde.text).to.equals('Opa, boa tarde, jovem!');
+        });
+        it('Boa noite', () => {
+            expect(retornos.boaNoite.text).to.equals('Opa, boa noite, jovem!');
+        });
+    });
+    describe('Horário incorreto', () => {
+        let retornos = {};
+        before((done) => {
+            saudacao.execute({ match: ['', 'om', 'dia'] }, (response) => {
+                retornos.bomDia = response;
+                saudacao.execute({ match: ['', 'oa', 'tarde'] }, (response) => {
+                    retornos.boaTarde = response;
+                    saudacao.execute({ match: ['', 'oa', 'noite'] }, (response) => {
+                        retornos.boaNoite = response;
+                        done();
+                    }, new Date('01/01/2016 15:00'));
+                }, new Date('01/01/2016 19:00'));
+            }, new Date('01/01/2016 13:00'));
+        });
+        it('Bom dia', () => {
+            expect(retornos.bomDia.text).to.equals('Bom dia, jovem? Agora são 12h00! Você devia regular seus horários!');
+        });
+        it('Boa tarde', () => {
+            expect(retornos.boaTarde.text).to.equals('Boa tarde, jovem? Agora são 18h00! Você devia regular seus horários!');
+        });
+        it('Boa noite', () => {
+            expect(retornos.boaNoite.text).to.equals('Boa noite, jovem? Agora são 14h00! Você devia regular seus horários!');
+        });
+    });
+});

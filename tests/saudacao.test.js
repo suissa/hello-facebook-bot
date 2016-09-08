@@ -32,6 +32,11 @@ describe('Saudacao', () => {
     });
     describe('Horário incorreto', () => {
         let retornos = {};
+        let dates = {
+            dia: new Date('01/01/2016 13:00'),
+            tarde: new Date('01/01/2016 19:00'),
+            noite: new Date('01/01/2016 15:00')
+        }
         before((done) => {
             saudacao.execute({ match: ['', 'om', 'dia'] }, (response) => {
                 retornos.bomDia = response;
@@ -40,18 +45,18 @@ describe('Saudacao', () => {
                     saudacao.execute({ match: ['', 'oa', 'noite'] }, (response) => {
                         retornos.boaNoite = response;
                         done();
-                    }, new Date('01/01/2016 15:00'));
-                }, new Date('01/01/2016 19:00'));
-            }, new Date('01/01/2016 13:00'));
+                    }, dates.noite);
+                }, dates.tarde);
+            }, dates.dia);
         });
         it('Bom dia', () => {
-            expect(retornos.bomDia.text).to.equals('Bom dia, jovem? Agora são 12h00! Você devia regular seus horários!');
+            expect(retornos.bomDia.text).to.equals(`Bom dia, jovem? Agora são ${dates.dia.getUTCHours() - 3}h00! Você devia regular seus horários!`);
         });
         it('Boa tarde', () => {
-            expect(retornos.boaTarde.text).to.equals('Boa tarde, jovem? Agora são 18h00! Você devia regular seus horários!');
+            expect(retornos.boaTarde.text).to.equals(`Boa tarde, jovem? Agora são ${dates.tarde.getUTCHours() - 3}h00! Você devia regular seus horários!`);
         });
         it('Boa noite', () => {
-            expect(retornos.boaNoite.text).to.equals('Boa noite, jovem? Agora são 14h00! Você devia regular seus horários!');
+            expect(retornos.boaNoite.text).to.equals(`Boa noite, jovem? Agora são ${dates.noite.getUTCHours() - 3}h00! Você devia regular seus horários!`);
         });
     });
 });

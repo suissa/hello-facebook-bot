@@ -68,12 +68,13 @@ const _execute = (args, cbk) => {
 };
 
 const execute = (args, cbk) => {
-  /*s.get(msg.chat.id, 'location', (err, data) => {
-    if (data == 'true') _execute(bot, msg, match);
-  });*/
-  if (args.match[1] && cbk) {
-    _execute(args, cbk)
-  }
+  s.get(args.id, 'location', (err, data) => {
+    if (data == 'true') {
+      if (args.match[1] && cbk) {
+        _execute(args, cbk)
+      }
+    };
+  });
 };
 
 module.exports = {

@@ -16,10 +16,16 @@ const answers = [
     'Por que vocês, humanos, não sabem falar direito?'
 ];
 
-const execute = (cbk) => {
-    if (cbk) cbk({ text: answers[Math.floor(Math.random() * answers.length)] });
+const s = require('../settings');
+
+const execute = (args, cbk) => {
+    s.get(args.id, 'funny', (err, data) => {
+        if (data == 'true') cbk({ text: answers[Math.floor(Math.random() * answers.length)] });
+        else cbk({ text: 'Comando não encontrado' });
+    })
 }
 
 module.exports = {
-    execute
+    execute,
+    answers
 }

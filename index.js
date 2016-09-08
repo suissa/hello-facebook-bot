@@ -29,6 +29,24 @@ const _services = [
         regex: /b(oa|om) (dia|tarde|noite)/i,
         fn: (bot, msg, match) => services.saudacao.execute(bot, msg, match),
         eval: false
+    },
+    {
+        member: 'lmgtfy',
+        regex: /^gme\s+([a-zA-Z ])+/i,
+        fn: (bot, msg, match) => services.gme.execute(bot, msg, match),
+        eval: false
+    },
+    {
+        member: 'omdb',
+        regex: /bot, (?:v?o?c?[e|ê]?)? *(?:j[a|á])? *(?:viu|assist[iu|e]|gost[a|ou]|conhece) *(?:de )? *([^?]+)/i,
+        fn: (bot, msg, match) => services.omdb.execute(bot, msg, match),
+        eval: false
+    },
+    {
+        member: 'config',
+        regex: /config +([^ ]+) *([^ ]+)*/i,
+        fn: (bot, msg, match) => services.config.execute(bot, msg, match),
+        eval: false
     }
 ]
 
@@ -51,16 +69,17 @@ fbBot.on('message', (payload, reply) => {
     _services.forEach((el, index) => {
         if (_services[index].regex.test(text)) {
             let match = text.match(_services[index].regex);
+            let id = payload.sender.id;
             recognized = true;
             const service = _services[index];
-            service.fn({ text, match }, (response) => {
+            service.fn({ text, match, id }, (response) => {
                 sendResponse(response, payload, reply);
             });
         }
     });
 
     if (!recognized) {
-        services.masem.execute((response) => {
+        services.masem.execute({ id: payload.sender.id }, (response) => {
             sendResponse(response, payload, reply);
         })
     }

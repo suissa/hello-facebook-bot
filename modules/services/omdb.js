@@ -3,7 +3,7 @@
 const request = require('request');
 const API_URLS = {
   exact: "http://www.omdbapi.com/?plot=short&r=json&t=",
-  search: "http://www.omdbapi.com/?plot=short&r=json&s=",
+  search: "http://www.omdbapi.com/?plot=short&r=json&t=",
   with_id: "http://www.omdbapi.com/?plot=short&r=json&i="
 };
 

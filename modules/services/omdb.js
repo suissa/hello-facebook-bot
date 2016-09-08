@@ -3,7 +3,7 @@
 const request = require('request');
 const API_URLS = {
   exact: "http://www.omdbapi.com/?plot=short&r=json&t=",
-  search: "http://www.omdbapi.com/?plot=short&r=json&t=",
+  search: "http://www.omdbapi.com/?plot=short&r=json&s=",
   with_id: "http://www.omdbapi.com/?plot=short&r=json&i="
 };
 
@@ -84,6 +84,7 @@ const _findInfo = (title, forceSearch, id, cbk) => {
           };
           _respond(_return, args.forceSearch, cbk);
         } else {
+          console.log(`_info: ${_info}`);
           _runSearch(title, false, cbk);
         }
       } else {

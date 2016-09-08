@@ -27,7 +27,7 @@ const _execute = (args, cbk) => {
   //noinspection JSUnusedAssignment
   let forceSearch = args.forceSearch || false;
   if (args.match[1] && args.match[1] != " " && args.match[1] != "") {
-    _findInfo(args.match[1], forceSearch, null, cbk);
+    _findInfo(args.match[1], forceSearch, args.movie_id, cbk);
   } else {
     cbk({ text: "Como vou saber, se vc não me fala o nome, jovem?" });
   }
@@ -79,8 +79,9 @@ const _findInfo = (title, forceSearch, id, cbk) => {
           let _return = {
             count: 1,
             poster: _info.Poster,
-            text: _info.Title + "\n\n" + "Gênero: " + _info.Genre + "\n" + "Tipo: " + _info.Type + "\n" + "Lançado em " + _info.Released + "\n" + "Sinopse: " + _info.Plot + "\n" + "Poster: " + _info.Poster,
-            imdb_link: IMDB_URL + _info.imdbID
+            text: _info.Title + "\n\n" + "Gênero: " + _info.Genre + "\n" + "Tipo: " + _info.Type + "\n" + "Lançado em " + _info.Released + "\n",
+            imdb_link: IMDB_URL + _info.imdbID,
+            plot: _info.plot
           };
           _respond(_return, forceSearch, cbk);
         } else {
@@ -102,7 +103,10 @@ const _respond = (info, force, cbk) => {
     if (info.count == 1) {
       if (!force) cbk({ text: "Opa, esse eu conheço!" });
       setTimeout(() => {
+        let sinopse = `Sinopse: ${info.plot}`;
+        sinopse = sinopse.split('').splice(0, 320).join('');
         cbk({ text: info.text, buttons: [{ type: 'web_url', url: info.imdb_link, title: 'Mais informações' }] });
+        cbk({ text: sinopse});
       }, 1000);
     } else {
       cbk({ text: force ? MESSAGES.search_succes_f : MESSAGES.search_succes_nf + ` (${info.count}, ${force})` });

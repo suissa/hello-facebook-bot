@@ -105,8 +105,14 @@ const _respond = (info, force, cbk) => {
       setTimeout(() => {
         let sinopse = `Sinopse: ${info.plot}`;
         sinopse = sinopse.split('').splice(0, 320).join('');
-        cbk({ text: info.text });
-        cbk({ text: sinopse, buttons: [{ type: 'web_url', url: info.imdb_link, title: 'Mais informações' }] });
+        cbk({
+          movie: {
+            text: info.text,
+            plot: sinopse,
+            buttons: [{ type: 'web_url', url: info.imdb_link, title: 'Mais informações' }],
+            poster: info.poster
+          }
+        });
       }, 1000);
     } else {
       cbk({ text: force ? MESSAGES.search_succes_f : MESSAGES.search_succes_nf + ` (${info.count}, ${force})` });

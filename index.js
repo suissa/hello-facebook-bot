@@ -119,6 +119,23 @@ const sendResponse = (response, payload, reply) => {
                 }
             }
         }
+    } else if (response.movie) {
+        _response = {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'generic',
+                    elements: [
+                        {
+                            title: response.movie.text,
+                            image_url: response.movie.poster,
+                            subtitle: response.movie.plot,
+                            buttons: response.buttons
+                        }
+                    ]
+                }
+            }
+        }
     } else {
         _response = { text: 'Erro intero' }
     }

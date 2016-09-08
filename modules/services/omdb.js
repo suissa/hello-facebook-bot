@@ -27,7 +27,7 @@ const _execute = (args, cbk) => {
   //noinspection JSUnusedAssignment
   let forceSearch = args.forceSearch || false;
   if (args.match[1] && args.match[1] != " " && args.match[1] != "") {
-    _findInfo(match[1], forceSearch, args.id, cbk);
+    _findInfo(args.match[1], forceSearch, args.id, cbk);
   } else {
     cbk({ text: "Como vou saber, se vc não me fala o nome, jovem?" });
   }

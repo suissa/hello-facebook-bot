@@ -84,7 +84,7 @@ const _findInfo = (title, forceSearch, id, cbk) => {
           };
           _respond(_return, args.forceSearch, cbk);
         } else {
-          console.log(`_info: ${_info}`);
+          console.log(`_info: ${JSON.stringify(_info)}`);
           _runSearch(title, false, cbk);
         }
       } else {

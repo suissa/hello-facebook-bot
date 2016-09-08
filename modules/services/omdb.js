@@ -82,9 +82,8 @@ const _findInfo = (title, forceSearch, id, cbk) => {
             text: _info.Title + "\n\n" + "Gênero: " + _info.Genre + "\n" + "Tipo: " + _info.Type + "\n" + "Lançado em " + _info.Released + "\n" + "Sinopse: " + _info.Plot + "\n" + "Poster: " + _info.Poster,
             imdb_link: IMDB_URL + _info.imdbID
           };
-          _respond(_return, args.forceSearch, cbk);
+          _respond(_return, forceSearch, cbk);
         } else {
-          console.log(`_info: ${JSON.stringify(_info)}`);
           _runSearch(title, false, cbk);
         }
       } else {

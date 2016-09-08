@@ -110,7 +110,8 @@ const _respond = (info, force, cbk) => {
             text: info.text,
             plot: sinopse,
             buttons: [{ type: 'web_url', url: info.imdb_link, title: 'Mais informações' }],
-            poster: info.poster
+            poster: info.poster,
+            link: info.imdb_link
           }
         });
       }, 1000);

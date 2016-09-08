@@ -128,6 +128,7 @@ const sendResponse = (response, payload, reply) => {
                     elements: [
                         {
                             title: response.movie.text,
+                            item_url: response.movie.link,
                             image_url: response.movie.poster,
                             subtitle: response.movie.plot,
                             buttons: response.buttons

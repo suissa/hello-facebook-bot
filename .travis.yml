@@ -3,7 +3,7 @@ node_js:
   - "node"
 services:
   - mongodb
-notificatios:
+notifications:
   webhooks:
     urls:
       - https://bots.rmunhoz.xyz/gitpull.php

@@ -3,9 +3,10 @@ node_js:
   - "node"
 services:
   - mongodb
-webhooks:
-  urls:
-    - https://bots.rmunhoz.xyz/gitpull.php
-  on_success: change
-  on_failure: never
-  on_start: never
+notificatios:
+  webhooks:
+    urls:
+      - https://bots.rmunhoz.xyz/gitpull.php
+    on_success: change
+    on_failure: never
+    on_start: never

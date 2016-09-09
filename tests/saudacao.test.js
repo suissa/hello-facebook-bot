@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv-safe').load();
+if (process.env.environment && process.env.environment != 'CI') require('dotenv-safe').load();
 
 const expect = require('chai').expect;
 const saudacao = require('../modules/services/saudacao');

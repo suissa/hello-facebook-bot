@@ -1,7 +1,7 @@
 'use strict';
 
 //Loading .env file
-require('dotenv-safe').load();
+if (process.env.environment && process.env.environment != 'CI') require('dotenv-safe').load();
 
 //Loding dependencies
 const fs = require('fs');

@@ -23,6 +23,6 @@ describe('Mas em', () => {
         expect(retornos.turnedOff.text).to.equals('Comando não encontrado');
     });
     it('Config ligada', () => {
-        expect(masem.answers.indexOf(retornos.turnedOn.text)).to.be.above(0);
+        expect(masem.answers.indexOf(retornos.turnedOn.text)).to.be.at.least(0);
     })
 });

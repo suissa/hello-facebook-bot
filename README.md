@@ -1,1 +1,1 @@
-# hello-facebook-bot
+# hello-facebook-bot [![Build Status](https://travis-ci.org/rohmunhoz/hello-facebook-bot.svg?branch=master)](https://travis-ci.org/rohmunhoz/hello-facebook-bot)
